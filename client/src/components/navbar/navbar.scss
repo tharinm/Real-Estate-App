@@ -1,3 +1,5 @@
+@import "../../responsive.scss";
+
 nav {
   display: flex;
   height: 100px;
@@ -18,6 +20,17 @@ nav {
     display: flex;
     gap: 50px;
     align-items: center;
+
+    .nav_link {
+      @include sm {
+        display: none;
+      }
+
+      @include md {
+        display: none;
+      }
+    }
+
     .brand-logo {
       max-width: 150px;
     }
@@ -29,6 +42,26 @@ nav {
     align-items: flex-end;
     justify-content: flex-end;
 
+    .menu-icon {
+      display: none;
+
+      @include sm {
+        display: inline;
+      }
+    }
+
+    .menu{
+      display: none;
+
+      @include sm {
+        display: block;
+      }
+    }
+
+    @include sm {
+      display: none;
+    }
+
     a {
       margin: 20px;
       padding: 12px 24px;
@@ -36,6 +69,7 @@ nav {
 
     .register {
       background: #fece51;
+      border-radius: 6px;
     }
   }
 }
