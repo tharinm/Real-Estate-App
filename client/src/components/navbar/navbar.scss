@@ -1,0 +1,41 @@
+nav {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    transition: all 0.4s ease;
+
+    &:hover {
+      scale: 1.05;
+    }
+  }
+
+  .left {
+    flex: 3;
+
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    .brand-logo {
+      max-width: 150px;
+    }
+  }
+
+  .right {
+    flex: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    a {
+      margin: 20px;
+      padding: 12px 24px;
+    }
+
+    .register {
+      background: #fece51;
+    }
+  }
+}
