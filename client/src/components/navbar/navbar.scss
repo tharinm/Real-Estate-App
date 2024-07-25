@@ -37,6 +37,12 @@ nav {
   }
 
   .right {
+    .sign {
+      @include md {
+        display: none;
+      }
+    }
+
     flex: 2;
     display: flex;
     align-items: flex-end;
@@ -45,21 +51,37 @@ nav {
     .menu-icon {
       display: none;
 
-      @include sm {
-        display: inline;
-      }
-    }
-
-    .menu{
-      display: none;
-
-      @include sm {
+      @include md {
         display: block;
+        font-size: 20px;
       }
     }
 
-    @include sm {
-      display: none;
+    .menu {
+      position: absolute;
+      top: 0;
+      right: -50%;
+      background-color: black;
+      color: white;
+      height: 100vh;
+      width: 50%;
+      transition: all 1s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: -12;
+
+      &.active {
+        right: 0;
+      }
+
+      @include sm {
+        a {
+          display: initial;
+        }
+      }
     }
 
     a {

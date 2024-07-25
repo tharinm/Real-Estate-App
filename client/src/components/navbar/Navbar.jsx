@@ -1,8 +1,12 @@
 import "./navbar.scss";
 import brandLogo from "../../assets/homeestate.png";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { MdOutlineClose } from "react-icons/md";
+import { useState } from "react";
 
 function Navbar() {
+  const [open, setOpen] = useState(false);
+
   return (
     <nav>
       <div className="left">
@@ -23,14 +27,26 @@ function Navbar() {
         </a>
       </div>
       <div className="right">
-        <a href="/">Sign In</a>
-        <a href="/" className="register">
+        <a href="/" className="sign">
+          Sign In
+        </a>
+        <a href="/" className="register sign">
           Sign Up
         </a>
         <div className="menu-icon">
-          <RxHamburgerMenu width={"20px"}/>
+          {open ? (
+            <MdOutlineClose
+              color={open ? "white" : "black"}
+              onClick={() => setOpen((prev) => !prev)}
+            />
+          ) : (
+            <RxHamburgerMenu
+              color={open ? "white" : "black"}
+              onClick={() => setOpen((prev) => !prev)}
+            />
+          )}
         </div>
-        <div className="menu">
+        <div className={open ? "menu active" : "menu disable-menu"}>
           <a href="/" className="nav_link">
             Home
           </a>

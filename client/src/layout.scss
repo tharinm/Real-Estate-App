@@ -8,17 +8,17 @@
   padding-left: 20px;
 
   @include lg {
-    background-color: rgb(238, 237, 238);
+   
     max-width: 1280px;
   }
 
   @include md {
-    background-color: rgb(203, 203, 203);
+  
     max-width: 768px;
   }
 
   @include sm {
-    background-color: rgb(255, 246, 246);
+  
     max-width: 640px;
   }
 }
