@@ -2,6 +2,7 @@ import "./listPage.scss";
 import { listData } from "../../lib/dumpdata";
 import Filter from "../../components/filter/filter";
 import Card from "../../components/card/Card";
+import Map from "../../components/map/map";
 
 function ListPage() {
   return (
@@ -14,7 +15,9 @@ function ListPage() {
           ))}
         </div>
       </div>
-      <div className="mapContainer">Map</div>
+      <div className="mapContainer">
+        <Map />
+      </div>
     </div>
   );
 }
