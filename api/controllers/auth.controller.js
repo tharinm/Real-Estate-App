@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
 import prisma from "../lib/prima.js";
 
 export const register = async (req, res) => {
@@ -45,13 +45,32 @@ export const login = async (req, res) => {
     if (!isPasswordValid)
       return res.status(400).json({ message: "Invalid Credentials!" });
 
-     res.setHeader("Set-Cookie", "test=" + "myValue").json("success")
-    
     // GENERATE COOKIE TOKEN AND SEND TO THE USER
+    // res.setHeader("Set-Cookie", "test=" + "myValue").json("success");
+    const age = 1000 * 60 * 60 * 24 * 7;
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        isAdmin: false,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: age }
+    );
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        maxAge: age,
+      })
+      .status(200)
+      .json({ message: "Login Success" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Failed to login" });
   }
 };
 
-export const logout = (req, res) => {};
+export const logout = (req, res) => {
+  res.clearCookie("token").status(200).json({ message: "Logout Successful" });
+};
