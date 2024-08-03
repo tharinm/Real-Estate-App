@@ -23,6 +23,9 @@ function Login() {
         password,
       });
       console.log(response);
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+      navigate("/");
     } catch (error) {
       setError(true);
       console.log(error.response);
