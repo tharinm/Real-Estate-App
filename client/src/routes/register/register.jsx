@@ -1,10 +1,14 @@
 import { useState } from "react";
 import "./register.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import apiRequest from "../../lib/apiRequest";
 
 function Register() {
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,14 +20,21 @@ function Register() {
 
     // Simulate API call
     try {
-      const response = await axios.post("http://localhost:8800/api/auth/register", {
-        username,
-        email,
-        password,
-      });
+      setIsLoading(true);
+      const response = await apiRequest.post(
+        "/auth/register",
+        {
+          username,
+          email,
+          password,
+        }
+      );
+      navigate("/login");
     } catch (error) {
       setError(true);
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,18 +46,18 @@ function Register() {
           <input name="username" type="text" placeholder="Username" />
           <input name="email" type="text" placeholder="Email" />
           <input name="password" type="password" placeholder="Password" />
-          <button>Register</button>
+          <button disabled={isLoading}>Register</button>
           {error && (
-        <div>
-          <p style={{ color: "red", fontSize: "10px" }}>
-            An error occurred while registering. Please try again.
-          </p>
-        </div>
-      )}
+            <div>
+              <p style={{ color: "red", fontSize: "10px" }}>
+                An error occurred while registering. Please try again.
+              </p>
+            </div>
+          )}
           <Link to="/login">Do you have an account?</Link>
         </form>
       </div>
-    
+
       <div className="imgContainer">
         <img src="/bg.png" alt="" />
       </div>

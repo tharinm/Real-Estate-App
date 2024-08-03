@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../lib/prima.js";
+import { use } from "bcrypt/promises.js";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -30,8 +31,8 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
-
   try {
+    // Proceed with the query if username is valid
     const user = await prisma.user.findUnique({
       where: { username },
     });
@@ -58,13 +59,15 @@ export const login = async (req, res) => {
       { expiresIn: age }
     );
 
+    const { password: userPassword, ...userInfo } = user;
+
     res
       .cookie("token", token, {
         httpOnly: true,
         maxAge: age,
       })
       .status(200)
-      .json({ message: "Login Success" });
+      .json(userInfo);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Failed to login" });
