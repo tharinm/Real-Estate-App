@@ -22,7 +22,7 @@ export const shouldBeAdmin = async (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
       if (err) return res.status(401).json({ message: "User jwt invalid!" });
       
-      if (payload.isAdmin) {
+      if (!payload.isAdmin) {
         return res.status(403).json({ message: "Not Authorized" });
       }
   });
