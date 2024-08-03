@@ -1,6 +1,6 @@
 import "./profilePage.scss";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import apiRequest from "../../lib/apiRequest";
@@ -11,6 +11,11 @@ function ProfilePage() {
   const navigate = useNavigate();
 
   const { currentUser, updateUser } = useContext(AuthContext);
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/login");
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -36,7 +41,7 @@ function ProfilePage() {
               Avatar:
               <img
                 src={
-                  currentUser.avatar
+                  currentUser?.avatar
                     ? currentUser.avatar
                     : "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 }
