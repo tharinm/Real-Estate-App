@@ -21,14 +21,11 @@ function Register() {
     // Simulate API call
     try {
       setIsLoading(true);
-      const response = await apiRequest.post(
-        "/auth/register",
-        {
-          username,
-          email,
-          password,
-        }
-      );
+      const response = await apiRequest.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
       navigate("/login");
     } catch (error) {
       setError(true);
@@ -39,7 +36,7 @@ function Register() {
   };
 
   return (
-    <div className="register">
+    <div className="registerForm">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h1>Create an Account</h1>

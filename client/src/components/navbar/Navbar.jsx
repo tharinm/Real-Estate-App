@@ -1,34 +1,30 @@
-import "./navbar.scss";
 import { useContext, useState } from "react";
+import "./navbar.scss";
 import { Link } from "react-router-dom";
-import brandLogo from "../../assets/homeestate.png";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { MdOutlineClose } from "react-icons/md";
 import { AuthContext } from "../../context/AuthContext";
+
 
 function Navbar() {
   const [open, setOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
+  // const fetch = useNotificationStore((state) => state.fetch);
+  // const number = useNotificationStore((state) => state.number);
+
+  if(currentUser) fetch();
+
   return (
     <nav>
       <div className="left">
-        <a href="">
-          <img src={brandLogo} alt="logo" className="brand-logo" />
+        <a href="/" className="logo">
+          <img src="/logo.png" alt="" />
+          <span>LamaEstate</span>
         </a>
-        <a href="/" className="nav_link">
-          Home
-        </a>
-        <a href="/" className="nav_link">
-          About
-        </a>
-        <a href="/" className="nav_link">
-          Contact
-        </a>
-        <a href="/" className="nav_link">
-          Agents
-        </a>
+        <a href="/">Home</a>
+        <a href="/">About</a>
+        <a href="/">Contact</a>
+        <a href="/">Agents</a>
       </div>
       <div className="right">
         {currentUser ? (
