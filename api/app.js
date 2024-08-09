@@ -6,6 +6,7 @@ import cors from "cors";
 import testRoutes from "./routes/test.route.js";
 import userRoutes from "./routes/user.route.js";
 
+
 const app = express();
 
 const corsOptions = {
@@ -22,6 +23,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/test", testRoutes);
+app.use("/api/posts",postRoutes)
 
 app.listen(8800, () => {
   console.log("Server is running");
