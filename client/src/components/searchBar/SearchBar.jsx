@@ -1,13 +1,14 @@
 import "./searchBar.scss";
 import { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const types = ["buy", "rent"];
 
 function SearchBar() {
   const [query, setQuery] = useState({
     type: "buy",
-    lpaction: "",
+    city: "",
     minPrice: 0,
     maxPrice: 0,
   });
@@ -15,6 +16,11 @@ function SearchBar() {
   const switchType = (val) => {
     setQuery((prev) => ({ ...prev, type: val }));
   };
+
+  const handleChange = (e) => {
+    setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <div className="searchBar">
       <div className="type">
@@ -29,24 +35,35 @@ function SearchBar() {
         ))}
       </div>
       <form>
-        <input type="text" name="location" placeholder="City Location" />
+        <input
+          type="text"
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+        />
         <input
           type="number"
           name="minPrice"
-          placeholder="Min Price"
           min={0}
-          max={100000000}
+          max={10000000}
+          placeholder="Min Price"
+          onChange={handleChange}
         />
         <input
           type="number"
           name="maxPrice"
-          placeholder="Max Price"
           min={0}
-          max={100000000}
+          max={10000000}
+          placeholder="Max Price"
+          onChange={handleChange}
         />
-        <button>
-          <IoSearchOutline color="white" />
-        </button>
+        <Link
+          to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}
+        >
+          <button>
+            <img src="/search.png" alt="" />
+          </button>
+        </Link>
       </form>
     </div>
   );
