@@ -1,83 +1,80 @@
 import "./profilePage.scss";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, Suspense } from "react";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
 
 function ProfilePage() {
-  const navigate = useNavigate();
+  const data = useLoaderData();
+  console.log(data);
 
-  const { currentUser, updateUser } = useContext(AuthContext);
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-    }
-  }, []);
+  const { updateUser, currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      const res = await apiRequest.post("/auth/logout", {});
-      navigate("/login");
+      await apiRequest.post("/auth/logout");
       updateUser(null);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
   };
-
   return (
     <div className="profilePage">
       <div className="details">
         <div className="wrapper">
           <div className="title">
             <h1>User Information</h1>
-            <button
-              onClick={() => {
-                navigate("/profile/update/");
-              }}
-            >
-              Update Profile
-            </button>
+            <Link to="/profile/update">
+              <button>Update Profile</button>
+            </Link>
           </div>
           <div className="info">
             <span>
               Avatar:
-              <img
-                src={
-                  currentUser?.avatar
-                    ? currentUser.avatar
-                    : "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                }
-                alt=""
-              />
+              <img src={currentUser.avatar || "noavatar.jpg"} alt="" />
             </span>
             <span>
-              Username: <b>{currentUser?.username} </b>
+              Username: <b>{currentUser.username}</b>
             </span>
             <span>
-              E-mail: <b>{currentUser?.email}</b>
+              E-mail: <b>{currentUser.email}</b>
             </span>
-            <span>
-              <button onClick={handleLogout}>Logout</button>
-            </span>
+            <button onClick={handleLogout}>Logout</button>
           </div>
           <div className="title">
             <h1>My List</h1>
-            <button>Create New Post</button>
+            <Link to="/add">
+              <button>Create New Post</button>
+            </Link>
           </div>
-          <List />
-          <div className="title">
-            <h1>Saved List</h1>
-          </div>
-          <List />
+
+         
+          <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
+            >
+              {(postResponse) => <List posts={postResponse.data.userPosts} />}
+            </Await>
+          </Suspense>
         </div>
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Chat />
+          {/* <Suspense fallback={<p>Loading...</p>}>
+            <Await
+              resolve={data.chatResponse}
+              errorElement={<p>Error loading chats!</p>}
+            >
+              {(chatResponse) => <Chat chats={chatResponse.data}/>}
+            </Await>
+          </Suspense> */}
         </div>
       </div>
     </div>
