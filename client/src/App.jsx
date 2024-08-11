@@ -23,6 +23,7 @@ function App() {
         {
           path: "/list",
           element: <ListPage />,
+          loader: listPageLoader,
         },
         {
           path: "/:id",
@@ -32,6 +33,7 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+          
         },
         {
           path: "/register",
