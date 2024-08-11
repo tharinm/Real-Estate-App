@@ -165,8 +165,9 @@ function NewPostPage() {
         <UploadWidget
           uwConfig={{
             multiple: true,
-            cloudName: "lamadev",
-            uploadPreset: "estate",
+            cloudName: "dylpxgmuq",
+            uploadPreset: "real_estate",
+            maxImageFileSize: 2000000,
             folder: "posts",
           }}
           setState={setImages}
